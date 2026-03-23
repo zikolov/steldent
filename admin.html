@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Дентал Клиник — Администрация</title>
+<title>СтелДент — Администрация</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -213,10 +213,10 @@ header { background: var(--surface); border-bottom: 0.5px solid var(--border2); 
         </div>
         <div class="frow"><label>Template ID</label><input id="ej-tid" type="text" placeholder="template_b5q2rqr"></div>
         <div class="section-label">Шаблон за потвърждение</div>
-        <div class="frow"><label>Тема на имейла</label><input id="ej-subject" type="text" placeholder="Потвърждение на час — Дентал Клиник"></div>
+        <div class="frow"><label>Тема на имейла</label><input id="ej-subject" type="text" placeholder="Потвърждение на час — СтелДент"></div>
         <div class="frow">
           <label>Текст на имейла (налични: {{to_name}}, {{date}}, {{time}}, {{doctor}}, {{procedure}}, {{chair}})</label>
-          <textarea id="ej-body" rows="5" style="border-radius:8px;border:0.5px solid var(--border2);background:var(--surface2);padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical;width:100%;" placeholder="Уважаем/а {{to_name}},&#10;&#10;Вашият час е потвърден:&#10;📅 {{date}} в {{time}}&#10;👨‍⚕️ {{doctor}}&#10;🦷 {{procedure}} — {{chair}}&#10;&#10;Дентал Клиник"></textarea>
+          <textarea id="ej-body" rows="5" style="border-radius:8px;border:0.5px solid var(--border2);background:var(--surface2);padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical;width:100%;" placeholder="Уважаем/а {{to_name}},&#10;&#10;Вашият час е потвърден:&#10;📅 {{date}} в {{time}}&#10;👨‍⚕️ {{doctor}}&#10;🦷 {{procedure}} — {{chair}}&#10;&#10;СтелДент"></textarea>
         </div>
       </div>
     </div>
@@ -243,7 +243,7 @@ header { background: var(--surface); border-bottom: 0.5px solid var(--border2); 
       </div>
       <div class="card-body">
         <div class="grid2">
-          <div class="frow"><label>Име на кабинета</label><input id="clinic-name" type="text" placeholder="Дентал Клиник"></div>
+          <div class="frow"><label>Име на кабинета</label><input id="clinic-name" type="text" placeholder="СтелДент"></div>
           <div class="frow"><label>Телефон за контакт</label><input id="clinic-phone" type="text" placeholder="02 / 123 456"></div>
         </div>
         <div class="grid2">
@@ -371,7 +371,7 @@ function loadConfig() {
     chairs:   JSON.parse(JSON.stringify(DEFAULT_CHAIRS)),
     emailjs:  { pk:'', sid:'', tid:'', subject:'', body:'' },
     social:   JSON.parse(JSON.stringify(DEFAULT_SOCIAL)),
-    clinic:   { name:'Дентал Клиник', phone:'', addr:'', hours:'', desc:'' },
+    clinic:   { name:'СтелДент', phone:'', addr:'', hours:'', desc:'' },
   };
 }
 
