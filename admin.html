@@ -124,7 +124,7 @@ header { background: var(--surface); border-bottom: 0.5px solid var(--border2); 
 
 <header>
   <div>
-    <span class="brand">Стел<em></em>Дент <span>Администрация</span></span>
+    <span class="brand">Stel<em></em>Dent <span>Администрация</span></span>
   </div>
   <div class="header-actions">
     <a href="index.html" class="btn">← Към календара</a>
@@ -138,7 +138,7 @@ header { background: var(--surface); border-bottom: 0.5px solid var(--border2); 
   <div class="tabs">
     <button class="tab active" onclick="switchTab('staff')">👨‍⚕️ Персонал</button>
     <button class="tab" onclick="switchTab('services')">🦷 Услуги</button>
-    <button class="tab" onclick="switchTab('chairs')">🪑 Столове</button>
+    <button class="tab" onclick="switchTab('chairs')">🪑 Кабинет</button>
     <button class="tab" onclick="switchTab('email')">✉ EmailJS</button>
     <button class="tab" onclick="switchTab('social')">🌐 Социални</button>
     <button class="tab" onclick="switchTab('data')">🗑 Данни</button>
@@ -182,13 +182,13 @@ header { background: var(--surface); border-bottom: 0.5px solid var(--border2); 
     <div class="card">
       <div class="card-header">
         <div>
-          <div class="card-title">Стоматологични столове</div>
-          <div class="card-sub">Брой работни столове и техните имена</div>
+          <div class="card-title">Стоматологични кабинети</div>
+          <div class="card-sub">Брой работни кабинети и техните имена</div>
         </div>
-        <button class="btn btn-green" onclick="addChair()">+ Добави стол</button>
+        <button class="btn btn-green" onclick="addChair()">+ Добави кабинет</button>
       </div>
       <div class="card-body">
-        <div class="warn-box">Промяната на броя столове ще се отрази на новите записвания. Вече направените записвания няма да се изтрият.</div>
+        <div class="warn-box">Промяната на броя кабинети ще се отрази на новите записвания. Вече направените записвания няма да се изтрият.</div>
         <div id="chairList"></div>
       </div>
     </div>
@@ -243,7 +243,7 @@ header { background: var(--surface); border-bottom: 0.5px solid var(--border2); 
       </div>
       <div class="card-body">
         <div class="grid2">
-          <div class="frow"><label>Име на кабинета</label><input id="clinic-name" type="text" placeholder="СтелДент"></div>
+          <div class="frow"><label>Име на кабинета</label><input id="clinic-name" type="text" placeholder="StelDent"></div>
           <div class="frow"><label>Телефон за контакт</label><input id="clinic-phone" type="text" placeholder="02 / 123 456"></div>
         </div>
         <div class="grid2">
@@ -336,8 +336,8 @@ const DEFAULT_SERVICES = [
   { name:'Рентген',                  duration:20 },
 ];
 const DEFAULT_CHAIRS = [
-  { name:'Стол 1', desc:'Общи процедури' },
-  { name:'Стол 2', desc:'Специализиран' },
+  { name:'Кабинет 1', desc:'Общи процедури' },
+  { name:'Кабинет 2', desc:'Специализиран' },
 ];
 const DEFAULT_SOCIAL = [
   { name:'Facebook',  icon:'f', color:'#1877f2', key:'facebook',  url:'' },
@@ -371,7 +371,7 @@ function loadConfig() {
     chairs:   JSON.parse(JSON.stringify(DEFAULT_CHAIRS)),
     emailjs:  { pk:'', sid:'', tid:'', subject:'', body:'' },
     social:   JSON.parse(JSON.stringify(DEFAULT_SOCIAL)),
-    clinic:   { name:'СтелДент', phone:'', addr:'', hours:'', desc:'' },
+    clinic:   { name:'StelDent', phone:'', addr:'', hours:'', desc:'' },
   };
 }
 
@@ -486,7 +486,7 @@ function renderChairs() {
     <div class="chair-item">
       <div class="chair-num">${i+1}</div>
       <div class="grid2" style="gap:8px;">
-        <input value="${ch.name}" placeholder="Стол ${i+1}" onchange="cfg.chairs[${i}].name=this.value;">
+        <input value="${ch.name}" placeholder="Кабинет ${i+1}" onchange="cfg.chairs[${i}].name=this.value;">
         <input value="${ch.desc}" placeholder="Описание" onchange="cfg.chairs[${i}].desc=this.value;">
       </div>
       <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeChair(${i})" ${cfg.chairs.length<=1?'disabled':''}>✕</button>
@@ -496,7 +496,7 @@ function renderChairs() {
 
 function addChair() {
   const n = cfg.chairs.length + 1;
-  cfg.chairs.push({ name:'Стол ' + n, desc:'Нов стол' });
+  cfg.chairs.push({ name:'Стол ' + n, desc:'Нов кабинет' });
   renderChairs();
 }
 
