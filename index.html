@@ -78,7 +78,7 @@ header {
 .day-num { font-size: 20px; font-weight: 600; color: var(--text); line-height: 1.1; margin-top: 2px; font-family: 'Playfair Display', serif; }
 .day-hdr.today-col .day-num { color: var(--green); }
 .chair-labels { display: flex; gap: 0; margin-top: 5px; }
-.chair-lbl { flex: 1; font-size: 9px; color: var(--text3); text-align: center; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
+. { flex: 1; font-size: 9px; color: var(--text3); text-align: center; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
 
 /* Time rows */
 .wg-body { position: relative; }
@@ -419,7 +419,7 @@ function renderHead() {
     return `<div class="day-hdr${isTod?' today-col':''}">
       <div class="day-name">${BG_DAYS_SHORT[d.getDay()]}</div>
       <div class="day-num">${d.getDate()}</div>
-      <div class="chair-labels">${CHAIRS.map((_,ci)=>`<div class="chair-lbl">С${ci+1}</div>`).join('')}</div>
+      <div class="chair-labels">${CHAIRS.map((_,ci)=>`<div class="chair-lbl">K${ci+1}</div>`).join('')}</div>
     </div>`;
   }).join('');
 }
