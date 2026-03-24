@@ -419,7 +419,7 @@ function renderHead() {
     return `<div class="day-hdr${isTod?' today-col':''}">
       <div class="day-name">${BG_DAYS_SHORT[d.getDay()]}</div>
       <div class="day-num">${d.getDate()}</div>
-      <div class="chair-labels">${CHAIRS.map((_,ci)=>`<div class="chair-lbl">K${ci+1}</div>`).join('')}</div>
+      <div class="chair-labels">${CHAIRS.map((_,ci)=>`<div class="chair-lbl">К${ci+1}</div>`).join('')}</div>
     </div>`;
   }).join('');
 }
