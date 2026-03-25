@@ -325,6 +325,8 @@ function getWorkDayOffsets() {
   // Collect all unique day-of-week values across doctors
   const dowSet = new Set();
   DOCTORS.forEach(d => d.days.forEach(dow => dowSet.add(dow)));
+   // Always include Saturday (dow=6) even if no doctors work that day
+  dowSet.add(6);
   // Build offsets from Monday (dow=1) through Saturday (dow=6) and Sunday (dow=0) in order Mon..Sun
   const ordered = [1,2,3,4,5,6,0].filter(dow => dowSet.has(dow));
   // Convert dow values to offsets from Monday
