@@ -566,6 +566,13 @@ function saveAll() {
   } catch(e) {
     showToast('Грешка при запазване: ' + e.message, 'err');
   }
+   // 🆕 ДОБАВИ ТОВА - Разпрости на другите табове
+    window.dispatchEvent(new Event('dentalConfigSaved'));
+    
+  } catch(e) {
+    showToast('Грешка при запазване: ' + e.message, 'err');
+  }
+}
 }
 
 // ── INIT ───────────────────────────────────────────────────────────────────
