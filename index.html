@@ -685,7 +685,30 @@ if(_cfg&&_cfg.social&&_cfg.social.some(s=>s.url)){
     links.map(s=>`<a href="${s.url}" target="_blank" style="width:28px;height:28px;border-radius:6px;background:${s.color};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;text-decoration:none;">${s.icon}</a>`).join('');
   document.querySelector('.cal-area').prepend(bar);
 }
+// ── Real-time sync между компютър ↔ телефон ────────────────────
+window.addEventListener('storage', (e) => {
+  if (e.key === 'dentalConfig' && e.newValue) {
+    location.reload(); // Презарежда страницата с новите лекари
+  }
+});
 
+window.addEventListener('dentalConfigSaved', () => {
+  location.reload();
+});
+
+// Също разпознай когато е изпратено от друга таба
+if (window.location.pathname.includes('index.html')) {
+  setInterval(() => {
+    const freshConfig = localStorage.getItem('dentalConfig');
+    if (freshConfig) {
+      const stored = JSON.parse(freshConfig);
+      const loaded = _cfg;
+      if (JSON.stringify(stored) !== JSON.stringify(loaded)) {
+        location.reload();
+      }
+    }
+  }, 2000); // Проверка всеки 2 секунди
+}
 // ── Start: load from Supabase ──────────────────────────────────────────────
 loadFromDB();
 </script>
