@@ -869,6 +869,14 @@ function saveAll() {
   try {
     localStorage.setItem('dentalConfig', JSON.stringify(cfg));
     showToast('Настройките са запазени успешно!', 'ok');
+// 🆕 ДОБАВИ ТОВА - Разпрости на другите табове
+    window.dispatchEvent(new Event('dentalConfigSaved'));
+    
+  } catch(e) {
+    showToast('Грешка при запазване: ' + e.message, 'err');
+  }
+}
+
   } catch(e) {
     showToast('Грешка при запазване: ' + e.message, 'err');
   }
