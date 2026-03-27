@@ -623,6 +623,14 @@ function collectSocial() {
 
 // ── SAVE ALL ───────────────────────────────────────────────────────────────
 async function saveAll() {
+  const data = { ...cfg };
+  
+  // Премахни полета които не съществуват в таблицата
+  delete data.clinic;
+  
+  // Продължи със запазването...
+}
+  async function saveAll() {
   collectEmailJS();
   collectSocial();
   
