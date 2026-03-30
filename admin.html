@@ -411,8 +411,8 @@ async function loadConfig() {
     if (dbCfg.emailjs) {
       cfg.emailjs = {...cfg.emailjs, ...dbCfg.emailjs};
     }
-    if (dbCfg.social) {
-      cfg.social = dbCfg.social;
+    if (dbCfg.social && dbCfg.social.length > 0) {
+  cfg.social = dbCfg.social;
     }
     if (dbCfg.clinic) {
       cfg.clinic = {...cfg.clinic, ...dbCfg.clinic};
