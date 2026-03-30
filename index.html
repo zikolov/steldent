@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="bg">
 <head>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -780,8 +780,6 @@ async function initialize() {
 }
 // Start the app
 initialize();
-</script>
-</body>
   // ── Export to ICS ───────────────────────────────────────────────────────
 function exportToICS() {
   if (!modalApptId) return;
@@ -838,4 +836,7 @@ END:VCALENDAR`;
   link.click();
   
   showToast('✓ ICS файл изтеглен', 'ok');
+}
+</script>
+</body>
 </html>
