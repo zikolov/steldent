@@ -777,7 +777,63 @@ async function initialize() {
   
   showLoader(false);
 }
-
+// ── Export to ICS ───────────────────────────────────────────────────────
+function exportToICS() {
+  if (!modalApptId) return;
+  const list = appointments[modalApptId.dateKey] || [];
+  const appt = list.find(x => x.id === modalApptId.id);
+  if (!appt) return;
+  
+  const doc = DOCTORS[appt.di];
+  const dateObj = new Date(modalApptId.dateKey.replace(/(\d+)-(\d+)-(\d+)/, '$1/$2/$3'));
+  
+  // Parse time (HH:MM)
+  const [hours, minutes] = appt.time.split(':').map(Number);
+  const startDate = new Date(dateObj);
+  startDate.setHours(hours, minutes, 0, 0);
+  
+  // Duration is procedure duration in minutes
+  const serviceDuration = SERVICES.find(s => s.name === appt.pr)?.duration || 30;
+  const endDate = new Date(startDate.getTime() + serviceDuration * 60000);
+  
+  // Format dates as YYYYMMDDTHHMMSSZ
+  const formatICSDate = (date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    const h = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+    const s = String(date.getSeconds()).padStart(2, '0');
+    return `${y}${m}${d}T${h}${min}${s}Z`;
+  };
+  
+  const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//StelDent//Appointment Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${appt.id}@steldent.local
+DTSTAMP:${formatICSDate(new Date())}
+DTSTART:${formatICSDate(startDate)}
+DTEND:${formatICSDate(endDate)}
+SUMMARY:${appt.pr} - ${doc.n}
+DESCRIPTION:Пациент: ${appt.pt}\\nЛекар: ${doc.n}\\nКабинет: ${CHAIRS[appt.chair]?.name || 'Кабинет ' + (appt.chair + 1)}\\nТелефон: ${appt.tel || '—'}
+LOCATION:${CHAIRS[appt.chair]?.name || 'Кабинет ' + (appt.chair + 1)}
+ATTENDEE:mailto:${appt.email || 'info@steldent.bg'}
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+  
+  // Create blob and download
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `appointment_${appt.pt.replace(/\s+/g, '_')}_${modalApptId.dateKey}.ics`;
+  link.click();
+  
+  showToast('✓ ICS файл изтеглен', 'ok');
+}
 // Start the app
 initialize();
 </script>
