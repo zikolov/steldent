@@ -777,7 +777,12 @@ async function initialize() {
   
   showLoader(false);
 }
-// ── Export to ICS ───────────────────────────────────────────────────────
+}
+// Start the app
+initialize();
+</script>
+</body>
+  // ── Export to ICS ───────────────────────────────────────────────────────
 function exportToICS() {
   if (!modalApptId) return;
   const list = appointments[modalApptId.dateKey] || [];
@@ -833,9 +838,4 @@ END:VCALENDAR`;
   link.click();
   
   showToast('✓ ICS файл изтеглен', 'ok');
-}
-// Start the app
-initialize();
-</script>
-</body>
 </html>
