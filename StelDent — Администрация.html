@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)https://zikolov.github.io/steldent/admin.html?key=steldent2024 -->
+<html lang="bg"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="icon" href="https://zikolov.github.io/steldent/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zikolov.github.io/steldent/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://zikolov.github.io/steldent/apple-touch-icon.png">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StelDent — Администрация</title>
+<link href="./StelDent — Администрация_files/css2" rel="stylesheet">
+<style>
+:root {
+  --bg:      #f5f2ed;
+  --surface: #ffffff;
+  --surface2:#faf9f6;
+  --border:  rgba(0,0,0,0.07);
+  --border2: rgba(0,0,0,0.13);
+  --text:    #1c1c1c;
+  --text2:   #6a6a6a;
+  --text3:   #b0a89e;
+  --green:   #2a9b6e;
+  --green-lt:#e5f4ed;
+  --green-dk:#1c7350;
+  --red:     #c0392b;
+  --red-lt:  #fde8e8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* Header */
+<img src="favicon-128x128.png" alt="Stel Dent" height="56">
+header { background: var(--surface); border-bottom: 0.5px solid var(--border2); padding: 0 2rem; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
+.brand { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+.brand em { font-style: normal; color: var(--green); }
+.brand span { font-size: 12px; font-weight: 400; color: var(--text2); margin-left: 10px; font-family: 'DM Sans', sans-serif; }
+.header-actions { display: flex; gap: 8px; align-items: center; }
+
+/* Layout */
+.wrap { max-width: 980px; margin: 0 auto; padding: 1.5rem 1rem 3rem; display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; background: var(--surface); border: 0.5px solid var(--border2); border-radius: 10px; padding: 4px; width: fit-content; }
+.tab { padding: 7px 16px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text2); border: none; background: transparent; font-family: 'DM Sans', sans-serif; transition: all .13s; }
+.tab.active { background: var(--green); color: #fff; }
+.tab:not(.active):hover { background: var(--bg); color: var(--text); }
+
+/* Panels */
+.panel { display: none; flex-direction: column; gap: 1rem; }
+.panel.active { display: flex; }
+
+/* Card */
+.card { background: var(--surface); border: 0.5px solid var(--border2); border-radius: 14px; overflow: hidden; }
+.card-header { padding: 14px 18px; border-bottom: 0.5px solid var(--border2); background: var(--surface2); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.card-sub { font-size: 11px; color: var(--text2); margin-top: 1px; }
+.card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+
+/* Buttons */
+.btn { height: 32px; padding: 0 14px; border-radius: 7px; border: 0.5px solid var(--border2); background: var(--surface); cursor: pointer; font-size: 12px; font-weight: 500; color: var(--text2); font-family: 'DM Sans', sans-serif; transition: all .12s; display: inline-flex; align-items: center; gap: 5px; }
+.btn:hover { background: var(--bg); color: var(--text); }
+.btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-green:hover { background: var(--green-dk); }
+.btn-red { background: var(--red-lt); color: var(--red); border-color: rgba(192,57,43,.2); }
+.btn-red:hover { background: #f9d5d5; }
+.btn-save-all { height: 38px; padding: 0 24px; font-size: 13px; border-radius: 8px; }
+
+/* Form elements */
+.frow { display: flex; flex-direction: column; gap: 3px; }
+.frow label { font-size: 10px; color: var(--text2); font-weight: 500; text-transform: uppercase; letter-spacing: .07em; }
+.frow input, .frow select {
+  height: 34px; border-radius: 8px; border: 0.5px solid var(--border2);
+  background: var(--surface2); color: var(--text); font-size: 13px;
+  padding: 0 10px; font-family: 'DM Sans', sans-serif; width: 100%;
+  transition: border-color .12s;
+}
+.frow input:focus, .frow select:focus { outline: none; border-color: var(--green); background: #fff; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+
+/* Doctor rows */
+.doc-item { background: var(--surface2); border: 0.5px solid var(--border2); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+.doc-item-header { display: flex; align-items: center; gap: 10px; }
+.doc-color-dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+.doc-item-name { font-size: 13px; font-weight: 600; flex: 1; }
+.doc-days { display: flex; gap: 5px; flex-wrap: wrap; }
+.day-toggle { width: 32px; height: 28px; border-radius: 6px; border: 0.5px solid var(--border2); background: var(--surface); cursor: pointer; font-size: 11px; font-weight: 500; color: var(--text2); font-family: 'DM Sans', sans-serif; transition: all .12s; }
+.day-toggle.on { background: var(--green); color: #fff; border-color: var(--green); }
+
+/* Service rows */
+.svc-item { display: grid; grid-template-columns: 1fr 90px 36px; gap: 8px; align-items: center; }
+.svc-item input { height: 32px; }
+
+/* Chair rows */
+.chair-item { display: grid; grid-template-columns: 40px 1fr 36px; gap: 8px; align-items: center; }
+.chair-num { font-size: 13px; font-weight: 600; color: var(--text2); text-align: center; }
+
+/* Social rows */
+.social-item { display: grid; grid-template-columns: 130px 1fr; gap: 10px; align-items: center; }
+.social-label { font-size: 12px; font-weight: 500; color: var(--text); display: flex; align-items: center; gap: 7px; }
+.social-icon { width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+
+/* Color picker row */
+.color-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.color-swatch { width: 24px; height: 24px; border-radius: 5px; cursor: pointer; border: 2px solid transparent; transition: all .12s; }
+.color-swatch.selected { border-color: var(--text); transform: scale(1.15); }
+
+/* Toast */
+.toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(12px); background: #1c1c1c; color: #fff; font-size: 12px; padding: 9px 18px; border-radius: 8px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 999; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.ok { background: var(--green); }
+.toast.err { background: var(--red); }
+
+/* Info box */
+.info-box { background: var(--green-lt); border: 0.5px solid rgba(42,155,110,.25); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #1a5c40; line-height: 1.6; }
+.warn-box { background: #fff8e8; border: 0.5px solid rgba(200,150,0,.25); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #7a5a00; line-height: 1.6; }
+
+/* Section divider */
+.section-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: -4px; }
+
+@media (max-width: 600px) {
+  .grid2, .grid3, .grid4 { grid-template-columns: 1fr; }
+  .social-item { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <span class="brand">Stel<em></em>Dent <span>Администрация</span></span>
+  </div>
+  <div class="header-actions">
+    <a href="https://zikolov.github.io/steldent/index.html" class="btn">← Към календара</a>
+    <button class="btn btn-green btn-save-all" onclick="saveAll()">Запази всички промени</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(&#39;staff&#39;)">👨‍⚕️ Персонал</button>
+    <button class="tab" onclick="switchTab(&#39;services&#39;)">🦷 Услуги</button>
+    <button class="tab" onclick="switchTab(&#39;chairs&#39;)">🪑 Кабинет</button>
+    <button class="tab" onclick="switchTab(&#39;email&#39;)">✉ EmailJS</button>
+    <button class="tab" onclick="switchTab(&#39;social&#39;)">🌐 Социални</button>
+    <button class="tab" onclick="switchTab(&#39;data&#39;)">🗑 Данни</button>
+  </div>
+
+ <!-- ── ПЕРСОНАЛ ── -->
+   <!-- ── ПЕРСОНАЛ ── -->
+  <div class="panel active" id="panel-staff">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Лекари</div>
+          <div class="card-sub">Добавяйте, редактирайте или премахвайте лекари и техните графици</div>
+        </div>
+        <button class="btn btn-green" onclick="addDoctor()">+ Добави лекар</button>
+      </div>
+      <div class="card-body" id="doctorList">
+    <div class="doc-item" id="doc-0">
+      <div class="doc-item-header">
+        <div class="doc-color-dot" style="background:#dff0e9;" id="dot-0"></div>
+        <div class="doc-item-name">Д-р Милушева-Кирилова</div>
+        <button class="btn btn-red" onclick="removeDoctor(0)">Премахни</button>
+      </div>
+      <div class="grid2">
+        <div class="frow"><label>Имe</label><input value="Д-р Милушева-Кирилова" onchange="cfg.doctors[0].name=this.value;document.querySelector(&#39;#doc-0 .doc-item-name&#39;).textContent=this.value;"></div>
+        <div class="frow"><label>Специализация</label><input value="Обща и Детска стоматология" onchange="cfg.doctors[0].spec=this.value;"></div>
+      </div>
+      <div class="grid4">
+        <div class="frow"><label>Начало (ч.)</label><input type="number" min="6" max="22" value="9" onchange="cfg.doctors[0].sh=parseInt(this.value);"></div>
+        <div class="frow"><label>Край (ч.)</label><input type="number" min="6" max="22" value="18" onchange="cfg.doctors[0].eh=parseInt(this.value);"></div>
+        <div class="frow" style="grid-column:span 2;"><label>Работни дни</label>
+          <div class="doc-days">
+            <button class="day-toggle on" onclick="toggleDay(0,1,this)">Пн</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(0,2,this)">Вт</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(0,3,this)">Ср</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(0,4,this)">Чт</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(0,5,this)">Пт</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(0,6,this)">Сб</button>
+          
+            <button class="day-toggle " onclick="toggleDay(0,0,this)">Нд</button>
+          </div>
+        </div>
+      </div>
+      <div class="frow"><label>Цвят</label>
+        <div class="color-row">
+          <div class="color-swatch selected" style="background:#dff0e9;" onclick="setDocColor(0,&#39;#dff0e9&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5e9f7;" onclick="setDocColor(0,&#39;#d5e9f7&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6e9d5;" onclick="setDocColor(0,&#39;#f6e9d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#ead5f6;" onclick="setDocColor(0,&#39;#ead5f6&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6d5da;" onclick="setDocColor(0,&#39;#f6d5da&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5f0f6;" onclick="setDocColor(0,&#39;#d5f0f6&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6f0d5;" onclick="setDocColor(0,&#39;#f6f0d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#e8f6d5;" onclick="setDocColor(0,&#39;#e8f6d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6d5ee;" onclick="setDocColor(0,&#39;#f6d5ee&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5d5f6;" onclick="setDocColor(0,&#39;#d5d5f6&#39;,this)"></div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="doc-item" id="doc-1">
+      <div class="doc-item-header">
+        <div class="doc-color-dot" style="background:#d5e9f7;" id="dot-1"></div>
+        <div class="doc-item-name">Д-р Огнян Тодоров</div>
+        <button class="btn btn-red" onclick="removeDoctor(1)">Премахни</button>
+      </div>
+      <div class="grid2">
+        <div class="frow"><label>Имe</label><input value="Д-р Огнян Тодоров" onchange="cfg.doctors[1].name=this.value;document.querySelector(&#39;#doc-1 .doc-item-name&#39;).textContent=this.value;"></div>
+        <div class="frow"><label>Специализация</label><input value="Орална хирургия" onchange="cfg.doctors[1].spec=this.value;"></div>
+      </div>
+      <div class="grid4">
+        <div class="frow"><label>Начало (ч.)</label><input type="number" min="6" max="22" value="9" onchange="cfg.doctors[1].sh=parseInt(this.value);"></div>
+        <div class="frow"><label>Край (ч.)</label><input type="number" min="6" max="22" value="14" onchange="cfg.doctors[1].eh=parseInt(this.value);"></div>
+        <div class="frow" style="grid-column:span 2;"><label>Работни дни</label>
+          <div class="doc-days">
+            <button class="day-toggle " onclick="toggleDay(1,1,this)">Пн</button>
+          
+            <button class="day-toggle " onclick="toggleDay(1,2,this)">Вт</button>
+          
+            <button class="day-toggle " onclick="toggleDay(1,3,this)">Ср</button>
+          
+            <button class="day-toggle " onclick="toggleDay(1,4,this)">Чт</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(1,5,this)">Пт</button>
+          
+            <button class="day-toggle " onclick="toggleDay(1,6,this)">Сб</button>
+          
+            <button class="day-toggle " onclick="toggleDay(1,0,this)">Нд</button>
+          </div>
+        </div>
+      </div>
+      <div class="frow"><label>Цвят</label>
+        <div class="color-row">
+          <div class="color-swatch " style="background:#dff0e9;" onclick="setDocColor(1,&#39;#dff0e9&#39;,this)"></div>
+        
+          <div class="color-swatch selected" style="background:#d5e9f7;" onclick="setDocColor(1,&#39;#d5e9f7&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6e9d5;" onclick="setDocColor(1,&#39;#f6e9d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#ead5f6;" onclick="setDocColor(1,&#39;#ead5f6&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6d5da;" onclick="setDocColor(1,&#39;#f6d5da&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5f0f6;" onclick="setDocColor(1,&#39;#d5f0f6&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6f0d5;" onclick="setDocColor(1,&#39;#f6f0d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#e8f6d5;" onclick="setDocColor(1,&#39;#e8f6d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6d5ee;" onclick="setDocColor(1,&#39;#f6d5ee&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5d5f6;" onclick="setDocColor(1,&#39;#d5d5f6&#39;,this)"></div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="doc-item" id="doc-2">
+      <div class="doc-item-header">
+        <div class="doc-color-dot" style="background:#f6e9d5;" id="dot-2"></div>
+        <div class="doc-item-name">Д-р Йоана Георгиева</div>
+        <button class="btn btn-red" onclick="removeDoctor(2)">Премахни</button>
+      </div>
+      <div class="grid2">
+        <div class="frow"><label>Имe</label><input value="Д-р Йоана Георгиева" onchange="cfg.doctors[2].name=this.value;document.querySelector(&#39;#doc-2 .doc-item-name&#39;).textContent=this.value;"></div>
+        <div class="frow"><label>Специализация</label><input value="Ортодонтия" onchange="cfg.doctors[2].spec=this.value;"></div>
+      </div>
+      <div class="grid4">
+        <div class="frow"><label>Начало (ч.)</label><input type="number" min="6" max="22" value="10" onchange="cfg.doctors[2].sh=parseInt(this.value);"></div>
+        <div class="frow"><label>Край (ч.)</label><input type="number" min="6" max="22" value="17" onchange="cfg.doctors[2].eh=parseInt(this.value);"></div>
+        <div class="frow" style="grid-column:span 2;"><label>Работни дни</label>
+          <div class="doc-days">
+            <button class="day-toggle " onclick="toggleDay(2,1,this)">Пн</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(2,2,this)">Вт</button>
+          
+            <button class="day-toggle " onclick="toggleDay(2,3,this)">Ср</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(2,4,this)">Чт</button>
+          
+            <button class="day-toggle " onclick="toggleDay(2,5,this)">Пт</button>
+          
+            <button class="day-toggle on" onclick="toggleDay(2,6,this)">Сб</button>
+          
+            <button class="day-toggle " onclick="toggleDay(2,0,this)">Нд</button>
+          </div>
+        </div>
+      </div>
+      <div class="frow"><label>Цвят</label>
+        <div class="color-row">
+          <div class="color-swatch " style="background:#dff0e9;" onclick="setDocColor(2,&#39;#dff0e9&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5e9f7;" onclick="setDocColor(2,&#39;#d5e9f7&#39;,this)"></div>
+        
+          <div class="color-swatch selected" style="background:#f6e9d5;" onclick="setDocColor(2,&#39;#f6e9d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#ead5f6;" onclick="setDocColor(2,&#39;#ead5f6&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6d5da;" onclick="setDocColor(2,&#39;#f6d5da&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5f0f6;" onclick="setDocColor(2,&#39;#d5f0f6&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6f0d5;" onclick="setDocColor(2,&#39;#f6f0d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#e8f6d5;" onclick="setDocColor(2,&#39;#e8f6d5&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#f6d5ee;" onclick="setDocColor(2,&#39;#f6d5ee&#39;,this)"></div>
+        
+          <div class="color-swatch " style="background:#d5d5f6;" onclick="setDocColor(2,&#39;#d5d5f6&#39;,this)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <!-- ── УСЛУГИ ── -->
+  <div class="panel" id="panel-services">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Процедури и услуги</div>
+          <div class="card-sub">Управление на предлаганите процедури и тяхната продължителност</div>
+        </div>
+        <button class="btn btn-green" onclick="addService()">+ Добави услуга</button>
+      </div>
+      <div class="card-body">
+        <div class="svc-item" style="font-size:10px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;">
+          <div>Наименование</div><div>Продължителност</div><div></div>
+        </div>
+        <div id="serviceList">
+    <div class="svc-item">
+      <input value="Преглед" placeholder="Наименование" onchange="cfg.services[0].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="30" style="width:60px;" onchange="cfg.services[0].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(0)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Почистване" placeholder="Наименование" onchange="cfg.services[1].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="60" style="width:60px;" onchange="cfg.services[1].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(1)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Пломба" placeholder="Наименование" onchange="cfg.services[2].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="45" style="width:60px;" onchange="cfg.services[2].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(2)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Извличане" placeholder="Наименование" onchange="cfg.services[3].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="45" style="width:60px;" onchange="cfg.services[3].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(3)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Протеза" placeholder="Наименование" onchange="cfg.services[4].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="90" style="width:60px;" onchange="cfg.services[4].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(4)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Имплант" placeholder="Наименование" onchange="cfg.services[5].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="120" style="width:60px;" onchange="cfg.services[5].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(5)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Избелване" placeholder="Наименование" onchange="cfg.services[6].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="60" style="width:60px;" onchange="cfg.services[6].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(6)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Ортодонтска консултация" placeholder="Наименование" onchange="cfg.services[7].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="45" style="width:60px;" onchange="cfg.services[7].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(7)">✕</button>
+    </div>
+  
+    <div class="svc-item">
+      <input value="Рентген" placeholder="Наименование" onchange="cfg.services[8].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="20" style="width:60px;" onchange="cfg.services[8].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(8)">✕</button>
+    </div>
+  </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── КАБИНЕТИ ── -->
+  <div class="panel" id="panel-chairs">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Стоматологични кабинети</div>
+          <div class="card-sub">Брой работни кабинети и техните имена</div>
+        </div>
+        <button class="btn btn-green" onclick="addChair()">+ Добави кабинет</button>
+      </div>
+      <div class="card-body">
+        <div class="warn-box">Промяната на броя кабинети ще се отрази на новите записвания. Вече направените записвания няма да се изтрият.</div>
+        <div id="chairList">
+    <div class="chair-item">
+      <div class="chair-num">1</div>
+      <div class="grid2" style="gap:8px;">
+        <input value="Кабинет 1" placeholder="Кабинет 1" onchange="cfg.chairs[0].name=this.value;">
+        <input value="Общи процедури" placeholder="Описание" onchange="cfg.chairs[0].desc=this.value;">
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeChair(0)">✕</button>
+    </div>
+  
+    <div class="chair-item">
+      <div class="chair-num">2</div>
+      <div class="grid2" style="gap:8px;">
+        <input value="Кабинет 2" placeholder="Кабинет 2" onchange="cfg.chairs[1].name=this.value;">
+        <input value="Специализиран" placeholder="Описание" onchange="cfg.chairs[1].desc=this.value;">
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeChair(1)">✕</button>
+    </div>
+  </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EMAILJS ── -->
+  <div class="panel" id="panel-email">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">EmailJS настройки</div>
+      </div>
+      <div class="card-body">
+        <div class="info-box">
+          Намерете ключовете си на <strong>dashboard.emailjs.com</strong><br>
+          Public Key → Account → General<br>
+          Service ID → Email Services → вашата услуга<br>
+          Template ID → Email Templates → вашият шаблон
+        </div>
+        <div class="grid2">
+          <div class="frow"><label>Public Key</label><input id="ej-pk" type="text" placeholder="-8kuax0A8j3n5xm9h"></div>
+          <div class="frow"><label>Service ID</label><input id="ej-sid" type="text" placeholder="zikolov@abv.bg"></div>
+        </div>
+        <div class="frow"><label>Template ID</label><input id="ej-tid" type="text" placeholder="template_b5q2rqr"></div>
+        <div class="section-label">Шаблон за потвърждение</div>
+        <div class="frow"><label>Тема на имейла</label><input id="ej-subject" type="text" placeholder="Потвърждение на час — StelDent"></div>
+        <div class="frow">
+          <label>Текст на имейла (налични: {{to_name}}, {{date}}, {{time}}, {{doctor}}, {{procedure}}, {{chair}})</label>
+          <textarea id="ej-body" rows="5" style="border-radius:8px;border:0.5px solid var(--border2);background:var(--surface2);padding:10px;font-family:&#39;DM Sans&#39;,sans-serif;font-size:13px;resize:vertical;width:100%;" placeholder="Уважаем/а {{to_name}},
+
+Вашият час е потвърден:
+📅 {{date}} в {{time}}
+👨‍⚕️ {{doctor}}
+🦷 {{procedure}} — {{chair}}
+
+StelDent"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── СОЦИАЛНИ ── -->
+  <div class="panel" id="panel-social">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Споделяне в социални мрежи</div>
+          <div class="card-sub">Линкове към страниците на кабинета</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-box">Попълнете линковете към вашите профили. Ще се появи бутон за споделяне в календара.</div>
+        <div id="socialList">
+    <div class="social-item">
+      <div class="social-label">
+        <div class="social-icon" style="background:#1877f2;">f</div>
+        Facebook
+      </div>
+      <input type="url" value="https://www.facebook.com/profile.php?id=61579340487051" placeholder="https://..." onchange="cfg.social[0].url=this.value;">
+    </div>
+  
+    <div class="social-item">
+      <div class="social-label">
+        <div class="social-icon" style="background:#e1306c;">ig</div>
+        Instagram
+      </div>
+      <input type="url" value="" placeholder="https://..." onchange="cfg.social[1].url=this.value;">
+    </div>
+  
+    <div class="social-item">
+      <div class="social-label">
+        <div class="social-icon" style="background:#4285f4;">G</div>
+        Google
+      </div>
+      <input type="url" value="" placeholder="https://..." onchange="cfg.social[2].url=this.value;">
+    </div>
+  
+    <div class="social-item">
+      <div class="social-label">
+        <div class="social-icon" style="background:#2a9b6e;">W</div>
+        Уебсайт
+      </div>
+      <input type="url" value="https://stel-dent.com/?fbclid=IwY2xjawQt4wtleHRuA2FlbQIxMABicmlkETB5bWJlQml3czRtZFVBQTRyc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHoggxRzO_3sDw9YrjuSRZMZ1RJYPTPhsqUVoHbvFNFVJbyoWW65dUuxCje4p_aem_Wq7l7G_uRfyr2jC8H1txXQ" placeholder="https://..." onchange="cfg.social[3].url=this.value;">
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Информация за кабинета</div>
+      </div>
+      <div class="card-body">
+        <div class="grid2">
+          <div class="frow"><label>Име на кабинета</label><input id="clinic-name" type="text" placeholder="StelDent"></div>
+          <div class="frow"><label>Телефон за контакт</label><input id="clinic-phone" type="text" placeholder="02 / 123 456"></div>
+        </div>
+        <div class="grid2">
+          <div class="frow"><label>Адрес</label><input id="clinic-addr" type="text" placeholder="ул. Витоша 1, София"></div>
+          <div class="frow"><label>Работно време (текст)</label><input id="clinic-hours" type="text" placeholder="Пон–Пет 09:00–18:00"></div>
+        </div>
+        <div class="frow"><label>Описание / Слоган</label><input id="clinic-desc" type="text" placeholder="Вашата усмивка е наша грижа"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ДАННИ ── -->
+  <div class="panel" id="panel-data">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Управление на записванията</div>
+          <div class="card-sub">Изтриване на тестови или стари данни от базата</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="warn-box">⚠ Внимание! Изтритите записвания не могат да бъдат възстановени.</div>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+
+          <div style="background:var(--surface2);border:0.5px solid var(--border2);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <div>
+              <div style="font-size:13px;font-weight:600;">Изтрий ВСИЧКИ записвания</div>
+              <div style="font-size:11px;color:var(--text2);margin-top:2px;">Изчиства цялата база — подходящо след тестване</div>
+            </div>
+            <button class="btn btn-red" style="height:36px;padding:0 18px;font-size:12px;white-space:nowrap;" onclick="deleteAllAppts()">🗑 Изтрий всички</button>
+          </div>
+
+          <div style="background:var(--surface2);border:0.5px solid var(--border2);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <div>
+              <div style="font-size:13px;font-weight:600;">Изтрий записвания преди дата</div>
+              <div style="font-size:11px;color:var(--text2);margin-top:2px;">Изчиства стари записвания преди избрана дата</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="date" id="deleteBeforeDate" style="height:34px;border-radius:8px;border:0.5px solid var(--border2);background:#fff;padding:0 10px;font-family:&#39;DM Sans&#39;,sans-serif;font-size:13px;">
+              <button class="btn btn-red" style="height:36px;padding:0 18px;font-size:12px;white-space:nowrap;" onclick="deleteBeforeDate()">🗑 Изтрий</button>
+            </div>
+          </div>
+
+          <div style="background:var(--surface2);border:0.5px solid var(--border2);border-radius:10px;padding:14px 16px;">
+            <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Брой записвания в базата</div>
+            <div id="apptCount" style="font-size:28px;font-weight:700;font-family:&#39;Playfair Display&#39;,serif;color:var(--green);">1 записвания</div>
+            <button class="btn" style="margin-top:8px;" onclick="loadApptCount()">↻ Обнови</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+// ── Защита с таен ключ ─────────────────────────────────────────────────────
+const ADMIN_SECRET = 'steldent2024';
+const params = new URLSearchParams(window.location.search);
+if (params.get('key') !== ADMIN_SECRET) {
+  document.documentElement.innerHTML = `
+    <html><head><meta charset="UTF-8"><title>404</title>
+    <style>body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;background:#f5f2ed;color:#999;flex-direction:column;gap:8px;}
+    h1{font-size:64px;margin:0;color:#ddd;} p{font-size:14px;}</style></head>
+    <body><h1>404</h1><p>Страницата не е намерена.</p></body></html>`;
+  throw new Error('Unauthorized');
+}
+
+// ── Default config ─────────────────────────────────────────────────────────
+const DEFAULT_DOCTORS = [
+  { name:'Д-р Петрова',  spec:'Обща стоматология',   color:'#dff0e9', textColor:'#1a5c40', days:[1,2,3,4,5], sh:9,  eh:18 },
+  { name:'Д-р Колев',    spec:'Орална хирургия',      color:'#d5e9f7', textColor:'#154070', days:[1,3,5],     sh:9,  eh:14 },
+  { name:'Д-р Димова',   spec:'Ортодонтия',           color:'#f6e9d5', textColor:'#7a4010', days:[2,4],       sh:10, eh:17 },
+  { name:'Д-р Стоянов',  spec:'Протетика',            color:'#ead5f6', textColor:'#4e1a7a', days:[1,2,3,4,5], sh:12, eh:18 },
+  { name:'Д-р Маринова', spec:'Детска стоматология',  color:'#f6d5da', textColor:'#7a1a28', days:[1,2,3,4],   sh:9,  eh:13 },
+];
+const DEFAULT_SERVICES = [
+  { name:'Преглед',                  duration:30 },
+  { name:'Почистване',               duration:60 },
+  { name:'Пломба',                   duration:45 },
+  { name:'Извличане',                duration:45 },
+  { name:'Протеза',                  duration:90 },
+  { name:'Имплант',                  duration:120 },
+  { name:'Избелване',                duration:60 },
+  { name:'Ортодонтска консултация',  duration:45 },
+  { name:'Рентген',                  duration:20 },
+];
+const DEFAULT_CHAIRS = [
+  { name:'Кабинет 1', desc:'Общи процедури' },
+  { name:'Кабинет 2', desc:'Специализиран' },
+];
+const DEFAULT_SOCIAL = [
+  { name:'Facebook',  icon:'f', color:'#1877f2', key:'facebook',  url:'' },
+  { name:'Instagram', icon:'ig',color:'#e1306c', key:'instagram', url:'' },
+  { name:'Google',    icon:'G', color:'#4285f4', key:'google',    url:'' },
+  { name:'Уебсайт',  icon:'W', color:'#2a9b6e', key:'website',   url:'' },
+];
+const COLOR_PALETTE = [
+  '#dff0e9','#d5e9f7','#f6e9d5','#ead5f6','#f6d5da',
+  '#d5f0f6','#f6f0d5','#e8f6d5','#f6d5ee','#d5d5f6',
+];
+const TEXT_COLORS = {
+  '#dff0e9':'#1a5c40','#d5e9f7':'#154070','#f6e9d5':'#7a4010',
+  '#ead5f6':'#4e1a7a','#f6d5da':'#7a1a28','#d5f0f6':'#0a5060',
+  '#f6f0d5':'#6a5a10','#e8f6d5':'#3a6010','#f6d5ee':'#6a1050',
+  '#d5d5f6':'#2a1a7a',
+};
+const DAY_NAMES = ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+
+// ── State ──────────────────────────────────────────────────────────────────
+let cfg = loadConfig();
+
+function loadConfig() {
+  try {
+    const raw = localStorage.getItem('dentalConfig');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return {
+    doctors:  JSON.parse(JSON.stringify(DEFAULT_DOCTORS)),
+    services: JSON.parse(JSON.stringify(DEFAULT_SERVICES)),
+    chairs:   JSON.parse(JSON.stringify(DEFAULT_CHAIRS)),
+    emailjs:  { pk:'', sid:'', tid:'', subject:'', body:'' },
+    social:   JSON.parse(JSON.stringify(DEFAULT_SOCIAL)),
+    clinic:   { name:'StelDent', phone:'', addr:'', hours:'', desc:'' },
+  };
+}
+
+// ── Tab switching ──────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = (type==='ok'?'✓ ':'✕ ') + msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── DOCTORS ────────────────────────────────────────────────────────────────
+function renderDoctors() {
+  const el = document.getElementById('doctorList');
+  if (!cfg.doctors.length) {
+    el.innerHTML = '<div style="color:var(--text3);font-size:13px;text-align:center;padding:1rem;">Няма добавени лекари</div>';
+    return;
+  }
+  el.innerHTML = cfg.doctors.map((doc, i) => `
+    <div class="doc-item" id="doc-${i}">
+      <div class="doc-item-header">
+        <div class="doc-color-dot" style="background:${doc.color};" id="dot-${i}"></div>
+        <div class="doc-item-name">${doc.name}</div>
+        <button class="btn btn-red" onclick="removeDoctor(${i})">Премахни</button>
+      </div>
+      <div class="grid2">
+        <div class="frow"><label>Имe</label><input value="${doc.name}" onchange="cfg.doctors[${i}].name=this.value;document.querySelector('#doc-${i} .doc-item-name').textContent=this.value;"></div>
+        <div class="frow"><label>Специализация</label><input value="${doc.spec}" onchange="cfg.doctors[${i}].spec=this.value;"></div>
+      </div>
+      <div class="grid4">
+        <div class="frow"><label>Начало (ч.)</label><input type="number" min="6" max="22" value="${doc.sh}" onchange="cfg.doctors[${i}].sh=parseInt(this.value);"></div>
+        <div class="frow"><label>Край (ч.)</label><input type="number" min="6" max="22" value="${doc.eh}" onchange="cfg.doctors[${i}].eh=parseInt(this.value);"></div>
+        <div class="frow" style="grid-column:span 2;"><label>Работни дни</label>
+          <div class="doc-days">${[1,2,3,4,5,6,0].map(d=>`
+            <button class="day-toggle ${doc.days.includes(d)?'on':''}" onclick="toggleDay(${i},${d},this)">${DAY_NAMES[d]}</button>
+          `).join('')}</div>
+        </div>
+      </div>
+      <div class="frow"><label>Цвят</label>
+        <div class="color-row">${COLOR_PALETTE.map(c=>`
+          <div class="color-swatch ${doc.color===c?'selected':''}" style="background:${c};" onclick="setDocColor(${i},'${c}',this)"></div>
+        `).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleDay(docIdx, day, btn) {
+  const doc = cfg.doctors[docIdx];
+  const idx = doc.days.indexOf(day);
+  if (idx >= 0) { doc.days.splice(idx, 1); btn.classList.remove('on'); }
+  else { doc.days.push(day); btn.classList.add('on'); }
+}
+
+function setDocColor(docIdx, color, el) {
+  cfg.doctors[docIdx].color = color;
+  cfg.doctors[docIdx].textColor = TEXT_COLORS[color] || '#1c1c1c';
+  document.querySelectorAll(`#doc-${docIdx} .color-swatch`).forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(`dot-${docIdx}`).style.background = color;
+}
+
+function addDoctor() {
+  cfg.doctors.push({ name:'Нов лекар', spec:'Специализация', color:'#dff0e9', textColor:'#1a5c40', days:[1,2,3,4,5], sh:9, eh:18 });
+  renderDoctors();
+  document.getElementById('doctorList').lastElementChild.scrollIntoView({ behavior:'smooth' });
+}
+
+function removeDoctor(i) {
+  if (!confirm('Сигурни ли сте, че искате да премахнете този лекар?')) return;
+  cfg.doctors.splice(i, 1);
+  renderDoctors();
+}
+
+// ── SERVICES ───────────────────────────────────────────────────────────────
+function renderServices() {
+  const el = document.getElementById('serviceList');
+  el.innerHTML = cfg.services.map((svc, i) => `
+    <div class="svc-item">
+      <input value="${svc.name}" placeholder="Наименование" onchange="cfg.services[${i}].name=this.value;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input type="number" min="5" max="300" step="5" value="${svc.duration}" style="width:60px;" onchange="cfg.services[${i}].duration=parseInt(this.value);">
+        <span style="font-size:11px;color:var(--text2);">мин.</span>
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeService(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function addService() {
+  cfg.services.push({ name:'Нова услуга', duration:30 });
+  renderServices();
+}
+
+function removeService(i) {
+  cfg.services.splice(i, 1);
+  renderServices();
+}
+
+// ── CHAIRS ─────────────────────────────────────────────────────────────────
+function renderChairs() {
+  const el = document.getElementById('chairList');
+  el.innerHTML = cfg.chairs.map((ch, i) => `
+    <div class="chair-item">
+      <div class="chair-num">${i+1}</div>
+      <div class="grid2" style="gap:8px;">
+        <input value="${ch.name}" placeholder="Кабинет ${i+1}" onchange="cfg.chairs[${i}].name=this.value;">
+        <input value="${ch.desc}" placeholder="Описание" onchange="cfg.chairs[${i}].desc=this.value;">
+      </div>
+      <button class="btn btn-red" style="width:32px;padding:0;justify-content:center;" onclick="removeChair(${i})" ${cfg.chairs.length<=1?'disabled':''}>✕</button>
+    </div>
+  `).join('');
+}
+
+function addChair() {
+  const n = cfg.chairs.length + 1;
+  cfg.chairs.push({ name:'Кабинет ' + n, desc:'Нов кабинет' });
+  renderChairs();
+}
+
+function removeChair(i) {
+  if (cfg.chairs.length <= 1) return;
+  if (!confirm('Сигурни ли сте?')) return;
+  cfg.chairs.splice(i, 1);
+  renderChairs();
+}
+
+// ── EMAILJS ────────────────────────────────────────────────────────────────
+function renderEmailJS() {
+  document.getElementById('ej-pk').value      = cfg.emailjs.pk      || '';
+  document.getElementById('ej-sid').value     = cfg.emailjs.sid     || '';
+  document.getElementById('ej-tid').value     = cfg.emailjs.tid     || '';
+  document.getElementById('ej-subject').value = cfg.emailjs.subject || '';
+  document.getElementById('ej-body').value    = cfg.emailjs.body    || '';
+}
+
+function collectEmailJS() {
+  cfg.emailjs.pk      = document.getElementById('ej-pk').value.trim();
+  cfg.emailjs.sid     = document.getElementById('ej-sid').value.trim();
+  cfg.emailjs.tid     = document.getElementById('ej-tid').value.trim();
+  cfg.emailjs.subject = document.getElementById('ej-subject').value.trim();
+  cfg.emailjs.body    = document.getElementById('ej-body').value.trim();
+}
+
+// ── SOCIAL ─────────────────────────────────────────────────────────────────
+function renderSocial() {
+  const el = document.getElementById('socialList');
+  el.innerHTML = cfg.social.map((s, i) => `
+    <div class="social-item">
+      <div class="social-label">
+        <div class="social-icon" style="background:${s.color};">${s.icon}</div>
+        ${s.name}
+      </div>
+      <input type="url" value="${s.url}" placeholder="https://..." onchange="cfg.social[${i}].url=this.value;">
+    </div>
+  `).join('');
+  // Clinic info
+  document.getElementById('clinic-name').value  = cfg.clinic.name  || '';
+  document.getElementById('clinic-phone').value = cfg.clinic.phone || '';
+  document.getElementById('clinic-addr').value  = cfg.clinic.addr  || '';
+  document.getElementById('clinic-hours').value = cfg.clinic.hours || '';
+  document.getElementById('clinic-desc').value  = cfg.clinic.desc  || '';
+}
+
+function collectSocial() {
+  cfg.clinic.name  = document.getElementById('clinic-name').value.trim();
+  cfg.clinic.phone = document.getElementById('clinic-phone').value.trim();
+  cfg.clinic.addr  = document.getElementById('clinic-addr').value.trim();
+  cfg.clinic.hours = document.getElementById('clinic-hours').value.trim();
+  cfg.clinic.desc  = document.getElementById('clinic-desc').value.trim();
+}
+
+// ── SAVE ALL ───────────────────────────────────────────────────────────────
+function saveAll() {
+  collectEmailJS();
+  collectSocial();
+  try {
+    localStorage.setItem('dentalConfig', JSON.stringify(cfg));
+    showToast('Настройките са запазени успешно!', 'ok');
+  } catch(e) {
+    showToast('Грешка при запазване: ' + e.message, 'err');
+  }
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+renderDoctors();
+renderServices();
+renderChairs();
+renderEmailJS();
+renderSocial();
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = (type==='ok' ? '✓ ' : '✕ ') + msg;
+  t.className = 'toast ' + type + ' show';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+// ── Supabase ───────────────────────────────────────────────────────────────
+const SB_URL = 'https://ojqyjcdwerezmttgyfhz.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qcXlqY2R3ZXJlem10dGd5Zmh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDg5NzYsImV4cCI6MjA4OTU4NDk3Nn0.6ivlGlS5p5qRSicODtgIQ7rHHLUzN-FkV3k9k9OxDu0';
+const SB_HDR = { 'Content-Type':'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer '+SB_KEY };
+
+async function sbAdmin(path, opts={}) {
+  const r = await fetch(SB_URL+'/rest/v1/'+path, { headers: SB_HDR, ...opts });
+  const text = await r.text();
+  if (!r.ok) throw new Error(text);
+  if (!text || text.trim()==='') return null;
+  return JSON.parse(text);
+}
+
+async function loadApptCount() {
+  try {
+    const r = await fetch(SB_URL+'/rest/v1/appointments?select=id', {
+      headers: { ...SB_HDR, 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' }
+    });
+    const count = r.headers.get('content-range');
+    const total = count ? count.split('/')[1] : '?';
+    document.getElementById('apptCount').textContent = total + ' записвания';
+  } catch(e) {
+    document.getElementById('apptCount').textContent = 'Грешка при зареждане';
+  }
+}
+
+async function deleteAllAppts() {
+  if (!confirm('Сигурни ли сте, че искате да изтриете ВСИЧКИ записвания?\nТова действие е необратимо!')) return;
+  try {
+    await sbAdmin('appointments?id=neq.00000000-0000-0000-0000-000000000000', { method: 'DELETE' });
+    showToast('Всички записвания са изтрити', 'ok');
+    loadApptCount();
+  } catch(e) {
+    showToast('Грешка: ' + e.message, 'err');
+  }
+}
+
+async function deleteBeforeDate() {
+  const dateVal = document.getElementById('deleteBeforeDate').value;
+  if (!dateVal) { showToast('Изберете дата', 'err'); return; }
+  // Convert YYYY-MM-DD to the format used in DB (YYYY-M-D)
+  if (!confirm(`Сигурни ли сте, че искате да изтриете всички записвания преди ${dateVal}?`)) return;
+  try {
+    await sbAdmin('appointments?date=lt.'+encodeURIComponent(dateVal), { method: 'DELETE' });
+    showToast('Записванията преди ' + dateVal + ' са изтрити', 'ok');
+    loadApptCount();
+  } catch(e) {
+    showToast('Грешка: ' + e.message, 'err');
+  }
+}
+
+// Load count on tab open
+document.querySelector('[onclick="switchTab(\'data\')"]').addEventListener('click', loadApptCount);
+</script>
+
+
+<div id="give-freely-root-kkkbiiikppgjdiebcabomlbidfodipjg" class="give-freely-root" data-extension-id="kkkbiiikppgjdiebcabomlbidfodipjg" data-extension-name="Substital: Add subtitles to videos and movies" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+
+  dialog::backdrop  {
+    background-color: rgba(180, 180, 180, 0.8);
+  }
+
+  dialog.backdrop-hidden::backdrop  {
+    background-color: transparent;
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>
