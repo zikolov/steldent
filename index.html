@@ -743,7 +743,6 @@ function deleteFromModal() { if(modalApptId){deleteAppt(modalApptId.id,modalAppt
 function exportToICS(appointmentDetails) {
     const { date, time, patientName, doctor, procedure, chair } = appointmentDetails;
     const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Your Organization//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${new Date().getTime()}@yourdomain.com\nDTSTAMP:${new Date().toUTCString()}\nDTSTART:${date}T${time}00Z\nSUMMARY:${procedure} with ${doctor} for ${patientName}\nDESCRIPTION:Appointment for ${patientName} in chair ${chair}\nEND:VEVENT\nEND:VCALENDAR`;
-
     const blob = new Blob([icsContent], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
