@@ -469,20 +469,7 @@ async function sendConfirmation(appt, dateObj) {
     console.error('EmailJS error:', err);
   }
 }
-// Add this function to index.html around line 742
-function exportToICS(appointmentDetails) {
-    const { date, time, patientName, doctor, procedure, chair } = appointmentDetails;
-    const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Your Organization//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${new Date().getTime()}@yourdomain.com\nDTSTAMP:${new Date().toUTCString()}\nDTSTART:${date}T${time}00Z\nSUMMARY:${procedure} with ${doctor} for ${patientName}\nDESCRIPTION:Appointment for ${patientName} in chair ${chair}\nEND:VEVENT\nEND:VCALENDAR`;
 
-    const blob = new Blob([icsContent], { type: 'text/calendar' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `appointment_${patientName}_${date}.ics`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
 // ── State ──────────────────────────────────────────────────────────────────
 const TODAY = new Date();
 let weekStart = getMonday(TODAY);
@@ -752,8 +739,21 @@ function openModal(id,dateKey) {
 }
 function closeModal() { document.getElementById('modalOv').classList.remove('open'); }
 function deleteFromModal() { if(modalApptId){deleteAppt(modalApptId.id,modalApptId.dateKey);closeModal();} }
-document.getElementById('modalOv').addEventListener('click',e=>{if(e.target===document.getElementById('modalOv'))closeModal();});
+// Add this function to index.html around line 742
+function exportToICS(appointmentDetails) {
+    const { date, time, patientName, doctor, procedure, chair } = appointmentDetails;
+    const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Your Organization//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${new Date().getTime()}@yourdomain.com\nDTSTAMP:${new Date().toUTCString()}\nDTSTART:${date}T${time}00Z\nSUMMARY:${procedure} with ${doctor} for ${patientName}\nDESCRIPTION:Appointment for ${patientName} in chair ${chair}\nEND:VEVENT\nEND:VCALENDAR`;
 
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `appointment_${patientName}_${date}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+document.getElementById('modalOv').addEventListener('click',e=>{if(e.target===document.getElementById('modalOv'))closeModal();});
 function shiftWeek(n) { weekStart=addDays(weekStart,n*7); pending=null; document.getElementById('formHint').textContent='изберете слот ←'; loadFromDB(); }
 function goCurrentWeek() { weekStart=getMonday(TODAY); pending=null; loadFromDB(); }
 
