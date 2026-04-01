@@ -748,7 +748,7 @@ function exportToICS(appointmentDetails)
     const cleanTime = time.replace(/:/g, ''); // от 14:30 става 1430
     const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Your Organization//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${new Date().getTime()}@yourdomain.com\nDTSTAMP:${new Date().toUTCString()}\nDTSTART:${date}T${time}00Z\nSUMMARY:${procedure} with ${doctor} for ${patientName}\nDESCRIPTION:Appointment for ${patientName} in chair ${chair}\nEND:VEVENT\nEND:VCALENDAR`;
-    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const blob = new Blob([icsContent], { type: 'text/calendar';charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
