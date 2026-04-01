@@ -741,11 +741,11 @@ function closeModal() { document.getElementById('modalOv').classList.remove('ope
 function deleteFromModal() { if(modalApptId){deleteAppt(modalApptId.id,modalApptId.dateKey);closeModal();} }
 // Add this function to index.html around line 742
 function exportToICS(appointmentDetails)
-{
-    const { date, time, patientName, doctor, procedure, chair } = appointmentDetails;
-   // Почистване на датата и часа (премахва - и :)
+{  
+  // Почистване на датата и часа (премахва - и :)
     const cleanDate = date.replace(/-/g, ''); // от 2023-10-27 става 20231027
     const cleanTime = time.replace(/:/g, ''); // от 14:30 става 1430
+    const { date, time, patientName, doctor, procedure, chair } = appointmentDetails;
     const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Your Organization//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${new Date().getTime()}@yourdomain.com\nDTSTAMP:${new Date().toUTCString()}\nDTSTART:${date}T${time}00Z\nSUMMARY:${procedure} with ${doctor} for ${patientName}\nDESCRIPTION:Appointment for ${patientName} in chair ${chair}\nEND:VEVENT\nEND:VCALENDAR`;
     const blob = new Blob([icsContent], { type: 'text/calendar';charset=utf-8'});
