@@ -516,11 +516,11 @@ function renderBody() {
         const a=appts(d).find(x=>x.chair===chair&&x.time===time);
         if(a){
           const doc=DOCTORS[a.di]; const bg=doc?doc.color:'#eee'; const fg=doc?doc.textColor:'#333';
-          return `<div class="chair-slot occ" onclick="openModal(${a.id},'${dk(d)}')">
+          return `<div class="chair-slot occ" onclick="openModal('${a.id}','${dk(d)}')">
             <div class="abl" style="background:${bg};color:${fg};">
               <div class="a-name">${a.pt}</div><div class="a-proc">${a.pr}</div>
               <div class="a-doc">${doc?doc.n:''}</div>
-              <button class="a-del" onclick="event.stopPropagation();deleteAppt(${a.id},'${dk(d)}')">✕</button>
+             <button class="a-del" onclick="event.stopPropagation();deleteAppt('${a.id}','${dk(d)}')">✕</button>
             </div></div>`;
         }
         return `<div class="chair-slot" onclick="prefill('${dk(d)}',${chair},'${time}')"><div class="add-ph">+</div></div>`;
