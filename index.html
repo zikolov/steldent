@@ -739,23 +739,7 @@ function openModal(id,dateKey) {
 }
 function closeModal() { document.getElementById('modalOv').classList.remove('open'); }
 function deleteFromModal() { if(modalApptId){deleteAppt(modalApptId.id,modalApptId.dateKey);closeModal();} }
-function exportToICS() {
-  if (!modalApptId) { showToast('Няма избрано записване', 'err'); return; }
-  const list = appointments[modalApptId.dateKey] || [];
-  const appt = list.find(a => a.id === modalApptId.id);
-  if (!appt) { showToast('Записването не е намерено', 'err'); return; }
-  const dd = new Date(modalApptId.dateKey.replace(/(\d+)-(\d+)-(\d+)/, '$1/$2/$3'));
-  const doc = DOCTORS[appt.di];
-  const dateStr = dd.getFullYear() + String(dd.getMonth() + 1).padStart(2, '0') + String(dd.getDate()).padStart(2, '0');
-  const timeStr = appt.time.replace(':', '');
-  const icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//StelDent//EN\nBEGIN:VEVENT\nUID:' + appt.id + '@steldent\nDTSTART:' + dateStr + 'T' + timeStr + '00Z\nSUMMARY:' + appt.pr + ' s ' + doc.n + '\nEND:VEVENT\nEND:VCALENDAR';
-  const blob = new Blob([icsContent], { type: 'text/calendar' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'appointment.ics';
-  link.click();
-  showToast('Fajlt svalen!', 'ok');
-}
+function exportToICS(){if(!modalApptId)return;const list=appointments[modalApptId.dateKey]||[];const a=list.find(x=>x.id===modalApptId.id);if(!a)return;const blob=new Blob(['BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:'+a.pr+'\nEND:VEVENT\nEND:VCALENDAR'],{type:'text/calendar'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='appointment.ics';link.click();}
 
 // ── Init form dynamic elements ─────────────────────────────────────────────
 function initFormElements() {
